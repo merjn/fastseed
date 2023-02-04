@@ -34,4 +34,19 @@ class FastSeed extends LaravelSeeder
 
         $driver->run(array_map(fn (string $seeder) => $this->resolve($seeder), $seeders));
     }
+
+    /**
+     * Run the seeders in parallel under the given condition.
+     *
+     * @param callable $callback
+     * @param array $seeders
+     * @return void
+     * @throws DriverNotConfiguredException
+     */
+    public function callParallelIf(callable $callback, array $seeders): void
+    {
+        $callback()
+            ? $this->callParallel($seeders)
+            : $this->call($seeders);
+    }
 }

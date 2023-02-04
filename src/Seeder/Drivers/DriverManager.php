@@ -2,7 +2,7 @@
 
 namespace Merjn\FastSeed\Seeder\Drivers;
 
-use Merjn\FastSeed\Contracts\Drivers\SeederInterface;
+use Merjn\FastSeed\Contracts\Seeder\Drivers\SeederInterface;
 
 class DriverManager
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Merjn\FastSeed\Contracts\Drivers;
+namespace Merjn\FastSeed\Contracts\Seeder\Drivers;
 
 interface SeederInterface
 {

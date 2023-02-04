@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Merjn\FastSeed\Seeder\Drivers\OpenSwoole;
 
 use Illuminate\Support\Collection;
-use Merjn\FastSeed\Contracts\Drivers\SeederInterface;
+use Merjn\FastSeed\Contracts\Seeder\Drivers\SeederInterface;
 use OpenSwoole\Coroutine\Channel;
 use OpenSwoole\Event;
 use OpenSwoole\Runtime;
