@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'driver' => 'openswoole',
+    'driver' => env('openswoole', 'FASTSEED_DRIVER'),
 
     'drivers' => [
         'openswoole' => [
