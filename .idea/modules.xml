@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../fastseedproject/.idea/fastseedproject.iml" filepath="$PROJECT_DIR$/../fastseedproject/.idea/fastseedproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/laravel-fastseed.iml" filepath="$PROJECT_DIR$/.idea/laravel-fastseed.iml" />
+    </modules>
+  </component>
+</project>
