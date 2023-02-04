@@ -41,7 +41,7 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Merjn\FastSeed\Seeder\FastSeed;
+use Merjn\FastSeed\Seeder\FastSeed; // (1)
 
 class DatabaseSeeder extends FastSeed
 {
@@ -53,7 +53,7 @@ class DatabaseSeeder extends FastSeed
     public function run()
     { 
         // Run the following seeders sequentially.
-        $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class); // (2)
         $this->call(PostsTableSeeder::class);
         $this->call([
             CommentsTableSeeder::class,
@@ -61,12 +61,15 @@ class DatabaseSeeder extends FastSeed
         ]);
 
         // Run the following seeders in parallel.        
-        $this->callParallel([
+        $this->callParallel([ // (3)
             CategoriesTableSeeder::class,
             TagsPivotTableSeeder::class,
         ]);
     }
 }
 ```
+1. Import the `Merjn\FastSeed\Seeder\FastSeed` class.
+2. Run the seeders sequentially.
+3. Run the seeders in parallel.
 
-That's it. Now, when you run `php artisan db:seed`, the seeders will be run in parallel.
+That's it. Now, just run `php artisan db:seed` as you normally would. The specified seeder classes will be run in parallel.
