@@ -17,16 +17,16 @@ would.
 FastSeed works out of the box. However, you may want to configure the number of workers that will be used to 
 run your seeds. 
 
-To do this, open `config/fastseed.php` and change the `workers` value to the number of workers you want to use.
-You can also use the `FASTSEED_WORKERS` environment variable to set the number of workers.
+To do this, open `config/fastseed.php`.  Additionally, you can use environment variables to configure FastSeed:
 ```
-FASTSEED_SWOOLE_WORKERS=
+FASTSEED_DRIVER=openswoole
+FASTSEED_SWOOLE_WORKERS=6
 ```
 FastSeed uses a coroutine pool. The number of workers you set will be the number of coroutines that will be used to run 
 your seeds. You can use the amount of CPU cores as an initial value for the number of workers, and then adjust it
 according to your needs.
 
-Also keep in mind that some database drivers (e.g. MySQL) consume a lot of memory. If you have a large number of seeds,
+Also keep in mind that some database drivers (e.g. MySQL) may consume a lot of memory. If you have a large number of seeds,
 you may want to set the number of workers to a lower number than the number of CPU cores you have.
 
 ## Usage
@@ -70,7 +70,3 @@ class DatabaseSeeder extends FastSeed
 ```
 
 That's it. Now, when you run `php artisan db:seed`, the seeders will be run in parallel.
-
-#### A note on foreign key constraints
-If you have foreign key constraints in your database, you'll have to disable them before running the seeds. Chaining
-is currently not supported.
