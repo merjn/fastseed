@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Merjn\FastSeed\Seeder\Drivers\OpenSwoole;
 
 use Illuminate\Support\Collection;
+use Merjn\FastSeed\Concerns\RunsSeederTrait;
 use Merjn\FastSeed\Contracts\Seeder\Drivers\SeederInterface;
 use OpenSwoole\Coroutine\Channel;
 use OpenSwoole\Event;
@@ -12,6 +13,8 @@ use OpenSwoole\Runtime;
 
 class OpenSwooleSeeder implements SeederInterface
 {
+    use RunsSeederTrait;
+
     public function __construct(
         private readonly SwooleSeederConfig $config
     ) { }
@@ -50,7 +53,7 @@ class OpenSwooleSeeder implements SeederInterface
                         break;
                     }
 
-                    $seeder->run();
+                    $this->runSeeder($seeder);
                 }
             });
         });
