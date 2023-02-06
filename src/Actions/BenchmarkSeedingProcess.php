@@ -8,7 +8,7 @@ use Merjn\FastSeed\Concerns\BenchmarksCallsTrait;
 use Merjn\FastSeed\Contracts\Seeder\Drivers\SeederInterface;
 use Psr\Log\LoggerInterface;
 
-class BenchmarkSeeders implements SeederInterface
+class BenchmarkSeedingProcess implements SeederInterface
 {
     use BenchmarksCallsTrait;
 

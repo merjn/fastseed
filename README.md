@@ -30,10 +30,11 @@ Also keep in mind that some database drivers (e.g. MySQL) may consume a lot of m
 you may want to set the number of workers to a lower number than the number of CPU cores you have.
 
 ## Usage
-You'll have to open the `DatabaseSeeder` class and extend it with the `Merjn\FastSeed\Seeder\FastSeed` class. In order
-to actually run the seeds in parallel, you have to specify a list of seeders.
+You'll have to open the `DatabaseSeeder` class and extend it with the `Merjn\FastSeed\Seeder\FastSeed` class instead of 
+`Illuminate\Database\Seeder`. In order to actually run the seeders in parallel, you have to specify which seeders you want
+to run in parallel. You can do this by calling the `callParallel` method. 
 
-Here's an example of a DatabaseSeeder class:
+For example:
 ```php
 <?php
 
@@ -73,3 +74,59 @@ class DatabaseSeeder extends FastSeed
 3. Run the seeders in parallel.
 
 That's it. Now, just run `php artisan db:seed` as you normally would. The specified seeder classes will be run in parallel.
+
+### Conditional parallelization
+You can also conditionally run the seeders in parallel. For example, you may want to run the seeders in parallel only 
+if the application is running in development mode. You can do this by using the `callParallelIf` method:
+```php
+<?php
+
+// ...
+
+public function run(): void 
+{
+    $this->callParallelIf(fn (): bool => App::environment('local'), [
+        CategoriesTableSeeder::class,
+        TagsPivotTableSeeder::class,
+    ]);
+}
+```
+The seeders will run sequentially if the closure returns `false`, meaning that the application is not running in 
+development mode.
+
+### Grouping seeders
+You can also group the seeders. This is useful if you want parallelization, but seeders rely on each other through
+foreign keys. For example, you may want to run the `UsersTableSeeder` and `PostsTableSeeder` in parallel, but you
+want to run the `CommentsTableSeeder` after the `PostsTableSeeder` has finished. You can do this by using the
+`callParallel` and `callParallelIf` methods:
+```php
+<?php
+
+// ...
+
+public function run(): void 
+{
+    $group = [        
+        [
+            // (1)
+            PostsTableSeeder::class,
+            CommentsTableSeeder::class,
+        ],
+        
+        // (2)
+        UsersTableSeeder::class,
+        TagsSeeder::class,
+    ];
+    
+    // Call the seeders in parallel.
+    $this->callParallel($group);
+
+    // Call the seeders in parallel if the application is running in development mode.
+    $this->callParallelIf(fn (): bool => App::environment('local'), $group);
+}
+```
+The group can contain an array of seeders, or a single seeder. In the example above, the seeders will be run in the
+following order:
+1. Allocate the `PostsTableSeeder` and `CommentsTableSeeder` to a worker. The worker stays busy until both seeders have finished.
+2. `UsersTableSeeder` and `TagsSeeder` are run in parallel. They are not grouped, so they do not depend on each other.
+
